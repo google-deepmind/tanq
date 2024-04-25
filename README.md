@@ -1,33 +1,95 @@
-# tanq
+# TANQ
+The first open domain question answering dataset where the answers require building tables from information across multiple sources.
 
-TODO(b/336266017): Add a description for your new project, explain what is
-being released here, etc... Additional, the following sections are normally
-expected for all releases. Feel free to add additional sections if appropriate
-for your project.
 
-## Installation
+## Dataset
+Please click the links below to download directly.
 
-Write instructions for how the user should install your code. The instructions
-should ideally be valid when copy-pasted. You can combine this with the Usage
-section if there's no separate installation step.
+- Test set: https://storage.mtls.cloud.google.com/tanq/data/v1/test.jsonl
+- Dev set: https://storage.mtls.cloud.google.com/tanq/data/v1/dev.jsonl
 
-## Usage
 
-Write example usage of your code. The instructions should ideally be valid when
-copy-pasted, and will be used by your technical reviewer to verify that your
-package functions correctly.
+## Description
+Description of data elements:
+
+```
+"init_qid": question identifier,
+"init_question": Original question from QAMPARI before adding attributes,
+"ext_question": New question with added attributes,
+"ext_question_cleaned": Question without attributes pareatheness,
+"ext_question_rephrased": Question rephrased by a language model, this is the question field that should be used,
+"question_properties": List of the added attributes into question,
+"answer_list": List of rows answers
+      "init_answer_wikidata_id": Answer ID in wikidata,
+      "init_answer_wikipedia_id": Answer ID in wikipedia,
+      "init_answer_composed":
+      "extension_answer": List of properties (columns)
+            "extension_property_id": Wikidata identifier for the property,
+            "extension_property_label": Name for the property,
+            "extension_entity": Dict of meta data of current extension answer,
+            "extension_wikidata_id": Wikidata ID for the value of the property,
+            "extension_wikipedia_id": Wikipedia ID for the value of the property,
+            "proof": List of evidence for the property in Wikipedia documents, detailed information could be found below,
+      "init_answer_proof": List of initial proofs from QAMPARI
+            "proof_text": Content of proof,
+            "found_in_url": URL link where the proof is found,
+      "filter_pass": Flag of whether this answer pass filters in question or not,
+      "instance_type": Type of this answer, extracted from 'instance of' section from corresponding wikidata page,
+"extended_types": List of successed extension types for question,
+"answer_table": Golden answer table for the extended question.
+```
+
+There are three types of proofs:
+
+- InfoboxProof
+
+      ```
+      "key": Name of the attribute this proof is related to,
+      "value": Answer of the attribute in 'key',
+      "section": Section name where the proof is found,
+      "parent_section": Parent section's name of 'section',
+      "found_in_url": URL link where the proof is found,
+      "index": Index of the inforbox in original page,
+      "proof_type": Fixed string: 'infobox',
+      "eval_result": Evaluation result got from LLM of whether this proof is verified or not.
+      ```
+
+- TableProof
+
+      ```
+      "rows": List of row data
+            "cells": List of cell data
+                  "cell_value": Content of cell,
+      "caption": Caption of the table if exists,
+      "section": Section name where the proof is found,
+      "parent_section": Parent section's name of 'section',
+      "found_in_url": URL link where the proof is found,
+      "index": Index of the table in original page,
+      "proof_type": Fixed string: 'table'
+      "eval_result": Evaluation result got from LLM of whether this proof is verified or not.
+      ```
+
+- TextProof
+
+      ```
+      "text": Context of proof,
+      "section": Section name where the proof is found,
+      "parent_section": Parent section's name of 'section',
+      "found_in_url": URL link where the proof is found,
+      "index": Index of the section content in original page,
+      "proof_type": Fixed string: 'text',
+      "eval_result": Evaluation result got from LLM of whether this proof is verified or not.
+      ```
 
 ## Citing this work
-
-Add citation details here, usually a pastable BibTeX snippet:
-
 ```latex
-@article{publicationname,
-      title={Publication Name},
-      author={Author One and Author Two and Author Three},
+@article{TANQ-2024,
+      title={TANQ: An open domain dataset of table answered questions},
+      author={Mubashara Akhtar and Chenxi Pang and Andreea Marzoca and Yasemin Altun and Julian Martin Eisenschlos},
       year={2024},
 }
 ```
+
 
 ## License and disclaimer
 
