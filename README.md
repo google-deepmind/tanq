@@ -1,4 +1,4 @@
-# TANQ
+# TANQ: An Open Domain Dataset for Table-ANswered Questions
 The first open domain question answering dataset where the answers require building tables from information across multiple sources.
 
 
