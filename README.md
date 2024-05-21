@@ -81,6 +81,25 @@ There are three types of proofs:
       "eval_result": Evaluation result got from LLM of whether this proof is verified or not.
       ```
 
+## Evaluation
+Please set below params:
+
+- input_path: path of evaluated data
+- prediction_key: key used in `TanqEntry` to save generated table from model
+- output_path: path to save evaluation results
+- sample_output_path: path to save sample output
+
+Here is an example:
+
+```
+python -m tanq.evaluate_tanq \
+  --input_path=tanq/test_data/test_input.jsonl \
+  --prediction_key=result_closedbook_proofs_False \
+  --output_path=tanq/test_data/test_output.jsonl \
+  --sample_output_path=tanq/test_data/test_sample_output.jsonl
+```
+
+
 ## Citing this work
 ```latex
 @article{TANQ-2024,
